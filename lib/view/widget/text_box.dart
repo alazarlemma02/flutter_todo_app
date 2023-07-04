@@ -3,12 +3,14 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class TaskAddingTextField extends StatefulWidget {
-  final TextEditingController contName;
-  final String lableName;
-  final int maximumLine;
+  final Function(String) callBackFunction;
+  final String? contName;
+  final String? lableName;
+  final int? maximumLine;
   const TaskAddingTextField(
       {super.key,
       required this.contName,
+      required this.callBackFunction,
       required this.lableName,
       required this.maximumLine});
 
@@ -17,12 +19,13 @@ class TaskAddingTextField extends StatefulWidget {
 }
 
 class _TextBottomFieldState extends State<TaskAddingTextField> {
-  TextEditingController textCont = TextEditingController();
-
+  final textCont = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    textCont = widget.contName;
     return TextField(
+      onChanged: (value) {
+        widget.callBackFunction(textCont.text);
+      },
       maxLines: widget.maximumLine,
       controller: textCont,
       decoration: InputDecoration(
